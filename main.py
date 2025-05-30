@@ -1,28 +1,11 @@
-import streamlit as st
-import datetime
-import random
-
-# --- PAGE CONFIG ---
-st.set_page_config(page_title="Crypto Portfolio", layout="centered")
-
-# --- CREDENTIALS ---
-VALID_USERNAME = "EtchSecure782"
-VALID_PASSWORD = "Etch4Steve!Sky"
-
-# --- LOGIN FUNCTION ---
-def login():
-    st.title("🔐 Sign In")
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    if st.button("Login"):
-        if username == VALID_USERNAME and password == VALID_PASSWORD:
-            st.session_state.logged_in = True
-            st.experimental_rerun()
-        else:
-            st.error("❌ Incorrect username or password.")
-
-# --- MAIN PORTFOLIO PAGE ---
 def main_app():
+    # --- LOGOUT BUTTON ---
+    col1, col2 = st.columns([6, 1])
+    with col2:
+        if st.button("🚪 Logout"):
+            st.session_state.logged_in = False
+            st.rerun()
+
     # --- STYLES ---
     st.markdown("""
         <style>
@@ -137,9 +120,3 @@ def main_app():
                     st.error("❌ Amount exceeds wallet balance.")
                 else:
                     st.success(f"✅ {amount_to_send} BTC sent to `{recipient}` (Token verified).")
-
-# --- APP FLOW ---
-if "logged_in" not in st.session_state or not st.session_state.logged_in:
-    login()
-else:
-    main_app()
